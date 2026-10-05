@@ -1,0 +1,36 @@
+header {
+  position: relative;
+  background: #0066cc;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden; /* garante que nada vaze do header */
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-lupa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* centraliza atrás do texto */
+  width: 80px;   /* aumenta o tamanho da lupa */
+  height: 80px;
+  opacity: 0.2;  /* deixa a lupa em transparência para não sobrecarregar o texto */
+  z-index: 0;    /* fica atrás do texto */
+}
+
+header h1 {
+  position: relative;
+  z-index: 1;    /* garante que o texto fique sobre a lupa */
+  display: inline-block;
+  margin: 0;
+  font-size: 2rem;
+}
+.logo-container img {
+  width: 80px; /* tamanho maior da logo */
+  height: 80px;
+}

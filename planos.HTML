@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>HealthMatch - Seleção de Planos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0066cc;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    main {
+      max-width: 450px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0066cc;
+      margin-bottom: 20px;
+    }
+
+    /* Botões dos planos */
+    .planos {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .planoBtn {
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      background: #e0e0e0;
+    }
+    .planoBtn.active {
+      background: #0066cc;
+      color: white;
+    }
+
+    /* Tabs Login/Cadastro */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .tab {
+      cursor: pointer;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+    }
+    .tab.active {
+      border-bottom: 3px solid #0066cc;
+      color: #0066cc;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    form.active {
+      display: flex;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #004d99;
+    }
+  </style>
+</head>
+<body>
+
+<header>HealthMatch</header>
+
+<main>
+  <h2>Selecionar Plano</h2>
+
+  <div class="planos">
+    <div id="btnA" class="planoBtn active">Plano A</div>
+    <div id="btnB" class="planoBtn">Plano B</div>
+    <div id="btnC" class="planoBtn">Plano C</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div id="tabLogin" class="tab active">Login</div>
+    <div id="tabCadastro" class="tab">Cadastro</div>
+  </div>
+
+  <!-- FORMULÁRIOS DOS PLANOS -->
+  
+  <form id="formA_login" class="active">
+    <input type="email" placeholder="E-mail - Plano A" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Entrar</button>
+  </form>
+
+  <form id="formA_cadastro">
+    <input type="text" placeholder="Nome completo - Plano A" required>
+    <input type="text" placeholder="CPF" required>
+    <input type="date" required>
+    <input type="email" placeholder="E-mail" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Cadastrar</button>
+  </form>
+
+  <!-- PLANO B -->
+
+  <form id="formB_login">
+    <input type="email" placeholder="E-mail - Plano B" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Entrar</button>
+  </form>
+
+  <form id="formB_cadastro">
+    <input type="text" placeholder="Nome completo - Plano B" required>
+    <input type="text" placeholder="CPF" required>
+    <input type="date" required>
+    <input type="email" placeholder="E-mail" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Cadastrar</button>
+  </form>
+
+  <!-- PLANO C -->
+
+  <form id="formC_login">
+    <input type="email" placeholder="E-mail - Plano C" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Entrar</button>
+  </form>
+
+  <form id="formC_cadastro">
+    <input type="text" placeholder="Nome completo - Plano C" required>
+    <input type="text" placeholder="CPF" required>
+    <input type="date" required>
+    <input type="email" placeholder="E-mail" required>
+    <input type="password" placeholder="Senha" required>
+    <button>Cadastrar</button>
+  </form>
+
+</main>
+
+<script>
+  const planos = {
+    A: { login: "formA_login", cadastro: "formA_cadastro" },
+    B: { login: "formB_login", cadastro: "formB_cadastro" },
+    C: { login: "formC_login", cadastro: "formC_cadastro" }
+  };
+
+  let planoAtual = "A";
+
+  const btnA = document.getElementById("btnA");
+  const btnB = document.getElementById("btnB");
+  const btnC = document.getElementById("btnC");
+
+  const tabLogin = document.getElementById("tabLogin");
+  const tabCadastro = document.getElementById("tabCadastro");
+
+  function atualizarForm() {
+    Object.values(planos).forEach(p => {
+      document.getElementById(p.login).classList.remove("active");
+      document.getElementById(p.cadastro).classList.remove("active");
+    });
+
+    if (tabLogin.classList.contains("active")) {
+      document.getElementById(planos[planoAtual].login).classList.add("active");
+    } else {
+      document.getElementById(planos[planoAtual].cadastro).classList.add("active");
+    }
+  }
+
+  btnA.onclick = () => {
+    planoAtual = "A";
+    btnA.classList.add("active");
+    btnB.classList.remove("active");
+    btnC.classList.remove("active");
+    atualizarForm();
+  };
+
+  btnB.onclick = () => {
+    planoAtual = "B";
+    btnB.classList.add("active");
+    btnA.classList.remove("active");
+    btnC.classList.remove("active");
+    atualizarForm();
+  };
+
+  btnC.onclick = () => {
+    planoAtual = "C";
+    btnC.classList.add("active");
+    btnA.classList.remove("active");
+    btnB.classList.remove("active");
+    atualizarForm();
+  };
+
+  tabLogin.onclick = () => {
+    tabLogin.classList.add("active");
+    tabCadastro.classList.remove("active");
+    atualizarForm();
+  };
+
+  tabCadastro.onclick = () => {
+    tabCadastro.classList.add("active");
+    tabLogin.classList.remove("active");
+    atualizarForm();
+  };
+</script>
+
+</body>
+</html>

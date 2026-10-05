@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthMatch | Login & Cadastro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #2EC4B6, #1B9AAA);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            width: 360px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            padding: 24px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1B9AAA;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #1B9AAA;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #168AAD;
+        }
+
+        .toggle {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        
+        .recuperar-senha {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.recuperar-senha a {
+    color: #008fa3;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.recuperar-senha a:hover {
+    text-decoration: underline;
+}
+
+        .toggle a {
+            color: #1B9AAA;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* TERMOS LGPD */
+        .lgpd {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .lgpd input {
+            width: auto;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .lgpd a {
+            color: #1B9AAA;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content h3 {
+            color: #1B9AAA;
+            margin-top: 20px;
+        }
+
+        .modal-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .fechar {
+            float: right;
+            font-size: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .fechar:hover {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LOGIN -->
+    <div id="login">
+
+        <h2>Login – HealthMatch</h2>
+
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Digite seu email">
+
+        <label>Senha</label>
+        <input type="password" id="loginSenha" placeholder="Digite sua senha">
+
+        <button onclick="login()">Entrar</button>
+
+        <div class="recuperar-senha">
+            <a onclick="mostrarRecuperacao()">Esqueci minha senha</a>
+        </div>
+
+        <div class="toggle">
+            Não tem conta?
+            <a onclick="mostrarCadastro()">Cadastre-se</a>
+        </div>
+
+    </div>
+
+    <!-- RECUPERAÇÃO DE SENHA -->
+<div id="recuperacao" class="hidden">
+
+    <h2>Recuperar senha</h2>
+
+    <label>Email</label>
+    <input
+        type="email"
+        id="emailRecuperacao"
+        placeholder="Digite seu email"
+    >
+
+    <button onclick="recuperarSenha()">
+        Recuperar senha
+    </button>
+
+    <div class="toggle">
+        Lembrou sua senha?
+        <a onclick="mostrarLogin()">Voltar para o login</a>
+    </div>
+
+</div>
+
+
+    <!-- CADASTRO -->
+    <div id="cadastro" class="hidden">
+
+        <h2>Cadastro – HealthMatch</h2>
+
+        <label>Nome completo</label>
+        <input type="text" id="nome" placeholder="Digite seu nome">
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Digite seu email">
+
+        <label>Senha</label>
+        <input type="password" id="senha" placeholder="Crie uma senha">
+
+        <label>Confirmar senha</label>
+        <input type="password" id="confirmarSenha" placeholder="Confirme a senha">
+
+
+        <!-- ACEITE LGPD -->
+        <div class="lgpd">
+
+            <label>
+                <input type="checkbox" id="aceiteLGPD">
+
+                Li e concordo com os
+                <a onclick="abrirTermos()">
+                    Termos de Privacidade, Segurança e LGPD
+                </a>
+                do HealthMatch.
+            </label>
+
+        </div>
+
+
+        <button onclick="cadastrar()">Cadastrar</button>
+
+        <div class="toggle">
+            Já tem conta?
+            <a onclick="mostrarLogin()">Fazer login</a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL DOS TERMOS -->
+
+<div id="modalTermos" class="modal">
+
+    <div class="modal-content">
+
+        <span class="fechar" onclick="fecharTermos()">&times;</span>
+
+        <h2>Termos de Privacidade e Segurança</h2>
+
+        <h3>1. Sobre o HealthMatch</h3>
+
+        <p>
+            O HealthMatch é uma plataforma desenvolvida para auxiliar
+            usuários na comparação e escolha de planos de saúde de acordo
+            com suas necessidades e preferências.
+        </p>
+
+
+        <h3>2. Proteção de Dados – LGPD</h3>
+
+        <p>
+            O HealthMatch respeita a Lei Geral de Proteção de Dados
+            Pessoais (Lei nº 13.709/2018 – LGPD) e busca garantir a
+            privacidade, a segurança e o tratamento adequado dos dados
+            pessoais dos usuários.
+        </p>
+
+
+        <h3>3. Dados coletados</h3>
+
+        <p>
+            Durante o cadastro, poderão ser coletados dados como nome,
+            endereço de e-mail e senha. Dependendo das funcionalidades
+            utilizadas na plataforma, outros dados poderão ser solicitados
+            para possibilitar a utilização dos serviços.
+        </p>
+
+
+        <h3>4. Finalidade do tratamento</h3>
+
+        <p>
+            Os dados pessoais poderão ser utilizados para criação e
+            gerenciamento da conta, autenticação do usuário, funcionamento
+            da plataforma, personalização de recomendações e melhoria dos
+            serviços oferecidos pelo HealthMatch.
+        </p>
+
+
+        <h3>5. Segurança das informações</h3>
+
+        <p>
+            O HealthMatch adota medidas técnicas e organizacionais
+            destinadas a proteger os dados pessoais contra acessos não
+            autorizados, perda, alteração, divulgação ou destruição
+            indevida.
+        </p>
+
+
+        <h3>6. Compartilhamento de dados</h3>
+
+        <p>
+            Os dados pessoais não deverão ser compartilhados com terceiros
+            de forma incompatível com as finalidades informadas ao usuário,
+            salvo quando necessário para o funcionamento dos serviços,
+            cumprimento de obrigação legal ou mediante autorização
+            adequada.
+        </p>
+
+
+        <h3>7. Direitos do usuário</h3>
+
+        <p>
+            Nos termos da LGPD, o usuário possui direitos relacionados aos
+            seus dados pessoais, incluindo a possibilidade de solicitar
+            informações sobre o tratamento de seus dados, correção de
+            informações incorretas e, quando aplicável, eliminação ou
+            revogação do consentimento.
+        </p>
+
+
+        <h3>8. Senhas e acesso à conta</h3>
+
+        <p>
+            O usuário é responsável por manter sua senha em segurança e não
+            compartilhá-la com outras pessoas. O HealthMatch não solicita
+            que o usuário informe sua senha por mensagens ou outros meios
+            não oficiais.
+        </p>
+
+
+        <h3>9. Cookies e tecnologias semelhantes</h3>
+
+        <p>
+            A plataforma poderá utilizar cookies e tecnologias semelhantes
+            para melhorar a experiência do usuário, manter sessões de
+            acesso e obter informações necessárias ao funcionamento do
+            sistema.
+        </p>
+
+
+        <h3>10. Consentimento</h3>
+
+        <p>
+            Ao marcar a opção de concordância durante o cadastro, o usuário
+            declara que leu e compreendeu os presentes Termos de Privacidade,
+            Segurança e LGPD e concorda com o tratamento de seus dados nas
+            condições apresentadas.
+        </p>
+
+
+        <h3>11. Atualizações</h3>
+
+        <p>
+            Estes termos poderão ser atualizados para refletir mudanças na
+            plataforma, na legislação ou nas práticas de proteção de dados.
+            Quando necessário, o usuário será informado sobre alterações
+            relevantes.
+        </p>
+
+
+        <h3>12. Contato</h3>
+
+        <p>
+            Caso o usuário tenha dúvidas sobre privacidade, segurança ou
+            tratamento de dados pessoais, poderá entrar em contato com a
+            equipe responsável pelo HealthMatch através dos canais oficiais
+            disponibilizados pela plataforma.
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function mostrarCadastro() {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('cadastro').classList.remove('hidden');
+    }
+
+
+    function mostrarLogin() {
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('recuperacao').classList.add('hidden');
+        document.getElementById('login').classList.remove('hidden');
+    }
+    
+    function mostrarRecuperacao() {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('recuperacao').classList.remove('hidden');
+     
+    }
+
+
+    /* ABRIR TERMOS */
+
+    function abrirTermos() {
+        document.getElementById('modalTermos').style.display = 'flex';
+    }
+
+
+    /* FECHAR TERMOS */
+
+    function fecharTermos() {
+        document.getElementById('modalTermos').style.display = 'none';
+    }
+
+
+    /* CADASTRO */
+
+async function cadastrar() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
+    const aceiteLGPD = document.getElementById("aceiteLGPD").checked;
+
+    // Verifica se todos os campos foram preenchidos
+    if (!nome || !email || !senha || !confirmarSenha) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    // Verifica se as senhas são iguais
+    if (senha !== confirmarSenha) {
+        alert("As senhas não coincidem.");
+        return;
+    }
+
+    // Verifica o aceite da LGPD
+    if (!aceiteLGPD) {
+        alert("Você precisa aceitar os termos de privacidade.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("http://localhost:3000/usuarios", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome: nome,
+                email: email,
+                senha: senha,
+                aceite_lgpd: true
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            alert(dados.erro || "Erro ao realizar cadastro.");
+            return;
+        }
+
+        alert("Cadastro realizado com sucesso!");
+
+        // Limpa os campos
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("senha").value = "";
+        document.getElementById("confirmarSenha").value = "";
+        document.getElementById("aceiteLGPD").checked = false;
+
+        // Volta para a tela de login
+        mostrarLogin();
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Não foi possível conectar ao servidor.");
+    }
+}
+
+
+    /* LOGIN */
+
+   async function login() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const senha = document.getElementById("loginSenha").value;
+
+    if (!email || !senha) {
+        alert("Preencha o e-mail e a senha.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("http://localhost:3000/usuarios");
+        const usuarios = await resposta.json();
+
+        if (!resposta.ok) {
+            alert("Erro ao consultar usuários.");
+            return;
+        }
+
+        const usuario = usuarios.find(
+            u => u.email === email && u.senha === senha
+        );
+
+        if (!usuario) {
+            alert("E-mail ou senha incorretos.");
+            return;
+        }
+
+        alert("Login realizado com sucesso!");
+
+        // Guarda o ID do usuário para usar posteriormente
+        localStorage.setItem("id_usuario", usuario.id_usuario);
+        localStorage.setItem("nome_usuario", usuario.nome);
+        localStorage.setItem("email_usuario", usuario.email);
+
+        // Verifica se existe um plano escolhido na URL
+        const params = new URLSearchParams(window.location.search);
+        const plano = params.get("plano");
+
+        if (plano === "A") {
+            window.location.href = "agendarA.html";
+        } else if (plano === "B") {
+            window.location.href = "agendarB.html";
+        } else if (plano === "C") {
+            window.location.href = "agendarC.html";
+        } else {
+            window.location.href = "home.html";
+        }
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Não foi possível conectar ao servidor.");
+    }
+}
+
+async function recuperarSenha() {
+    const email = document.getElementById("emailRecuperacao").value.trim();
+
+    if (!email) {
+        alert("Digite seu email.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("http://localhost:3000/usuarios/recuperar-senha", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            alert(dados.erro || "Erro ao recuperar senha.");
+            return;
+        }
+
+        alert(dados.mensagem);
+
+    } catch (erro) {
+        console.error("Erro:", erro);
+        alert("Não foi possível conectar ao servidor.");
+    }
+}
+
+
+    /* FECHAR MODAL CLICANDO FORA */
+
+    window.onclick = function(event) {
+
+        const modal = document.getElementById('modalTermos');
+
+        if (event.target === modal) {
+
+            modal.style.display = 'none';
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
